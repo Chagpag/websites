@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chandana Pagadala - Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f7f5;
+      --surface: #ffffff;
+      --border: #e2e6f0;
+      --accent: #e8a0b4;
+      --accent-dim: #c97a92;
+      --text: #1a2340;
+      --muted: #7a85a0;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --mono: 'DM Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    :root.dark {
+      --bg: #0e0f14;
+      --surface: #161820;
+      --border: #252733;
+      --accent: #e8a0b4;
+      --accent-dim: #c97a92;
+      --text: #e8e8f0;
+      --muted: #7a85a0;
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); transition: background 0.3s, color 0.3s; }
+
+    .portfolio { min-height: 100vh; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    nav.scrolled { border-color: var(--border); background: var(--bg); backdrop-filter: blur(12px); }
+    .nav-logo { font-family: var(--serif); font-size: 1.3rem; color: var(--text); letter-spacing: -0.02em; cursor: pointer; text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.78rem; color: var(--muted); text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .theme-toggle {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer;
+      font-size: 1rem; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; border-radius: 50%;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 80vh; /* REDUCED from 100vh to pull projects up */
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 2rem; /* REDUCED bottom padding */
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(232,160,180,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--accent);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .hero-tag::before, .hero-tag::after { content: ''; width: 28px; height: 1px; background: var(--accent); }
+    .hero-name {
+      font-family: var(--serif); font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 1.0; letter-spacing: -0.03em;
+      margin-bottom: 1.5rem; color: var(--text);
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-bio {
+      font-size: 1rem; color: var(--muted); line-height: 1.85;
+      max-width: 520px; margin: 0 auto 2.5rem; font-weight: 300;
+    }
+    .hero-cta { display: flex; gap: 0.85rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn {
+      font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.07em;
+      text-transform: uppercase; text-decoration: none; cursor: pointer;
+      border: none; padding: 0.8rem 1.6rem;
+      transition: all 0.2s; display: inline-flex; align-items: center;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 4rem 3rem; } /* REDUCED top/bottom padding to tighten gaps */
+    .section-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3.5rem; }
+    .section-num { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; transition: color 0.3s; }
+    .section-title { font-family: var(--serif); font-size: 2.8rem; letter-spacing: -0.02em; color: var(--text); transition: color 0.3s; }
+    .section-line { flex: 1; height: 1px; background: var(--border); transition: background 0.3s; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5px; background: var(--border); }
+    .project-card {
+      background: var(--bg); padding: 2.25rem;
+      transition: background 0.2s;
+      position: relative; overflow: hidden;
+      cursor: pointer; color: inherit; display: block;
+    }
+    .project-card:hover { background: var(--surface); }
+    .project-card:hover .project-arrow { opacity: 1; transform: translate(0,0); }
+    .project-num { font-family: var(--mono); font-size: 0.7rem; color: var(--border); margin-bottom: 1.5rem; transition: color 0.3s; }
+    .project-title { font-family: var(--serif); font-size: 1.6rem; margin-bottom: 0.75rem; letter-spacing: -0.01em; color: var(--text); transition: color 0.3s; }
+    .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.75; margin-bottom: 1.5rem; font-weight: 300; }
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag {
+      font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
+      padding: 0.3rem 0.65rem;
+      border: 1px solid var(--border); color: var(--muted);
+      text-transform: uppercase; transition: border-color 0.3s, color 0.3s;
+    }
+    .project-arrow {
+      position: absolute; top: 2.25rem; right: 2.25rem;
+      color: var(--accent); font-size: 1.25rem;
+      opacity: 0; transform: translate(-4px, 4px);
+      transition: all 0.2s;
+    }
+    .featured { border-top: 2px solid var(--accent); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 3rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      transition: border-color 0.3s;
+    }
+    footer p { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+    /* PROJECT DETAIL PAGE */
+    .project-page {
+      display: none; /* Hidden initially */
+      min-height: 100vh; padding: 8rem 3rem 5rem;
+      max-width: 860px; margin: 0 auto;
+    }
+    .back-btn {
+      font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted); background: none;
+      border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 3rem; transition: color 0.2s; padding: 0;
+    }
+    .back-btn:hover { color: var(--accent); }
+    .project-page-tag {
+      font-family: var(--mono); font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .project-page-title {
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.8rem);
+      letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 1.25rem; color: var(--text);
+    }
+    .project-page-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .project-page-divider { height: 1px; background: var(--border); margin-bottom: 2.5rem; }
+
+    /* IMAGE — centered single photo with lightbox */
+    .project-images { display: flex; justify-content: center; margin-bottom: 2.5rem; }
+    .image-slot {
+      width: 100%; max-width: 640px;
+      background: var(--surface); border: 1px dashed var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; color: var(--muted); font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      position: relative; overflow: hidden; cursor: pointer;
+    }
+    .image-slot img { width: 100%; height: auto; display: block; transition: opacity 0.2s; }
+    .image-slot:hover img { opacity: 0.88; }
+    .image-zoom-hint {
+      position: absolute; bottom: 0.6rem; right: 0.75rem;
+      font-family: var(--mono); font-size: 0.65rem; color: var(--accent);
+      letter-spacing: 0.06em; text-transform: uppercase; opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .image-slot:hover .image-zoom-hint { opacity: 1; }
+
+    /* LIGHTBOX */
+    .lightbox-overlay {
+      display: none; /* Hidden initially */
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88);
+      align-items: center; justify-content: center;
+      cursor: zoom-out; padding: 2rem;
+    }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-overlay img {
+      max-width: 95vw; max-height: 90vh;
+      object-fit: contain; box-shadow: 0 0 60px rgba(0,0,0,0.5);
+    }
+
+    .project-section-title { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.85rem; margin-top: 2rem; color: var(--text); }
+    .project-body { color: var(--muted); line-height: 1.9; font-weight: 300; font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .project-body strong { color: var(--text); font-weight: 500; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .project-page { padding: 7rem 1.5rem 4rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="portfolio">
+    
+    <nav id="navbar">
+      <a href="#" class="nav-logo" id="nav-logo" onclick="goHome(event)">
+        Chandana<span>.</span>
+      </a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#projects" onclick="goHome(event)">Projects</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          ☽
+        </button>
+      </div>
+    </nav>
+
+    <div id="main-view">
+      <section class="hero" id="home">
+        <div class="hero-tag">Available for opportunities</div>
+        <h1 class="hero-name" id="hero-name">
+          </h1>
+        <p class="hero-bio" id="hero-bio"></p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })">View Projects</button>
+          <a href="mailto:cpagadal@purdue.edu" class="btn btn-ghost">Email: cpagadal@purdue.edu</a>
+          <a href="https://www.linkedin.com/in/chandanapagadala" class="btn btn-ghost" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/Chagpag" class="btn btn-ghost" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <h2 class="section-title">Projects</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="projects-grid" id="projects-grid">
+          </div>
+      </section>
+
+      <footer>
+        <p>© 2026 Chandana Pagadala</p>
+        <p>Purdue University — Computer Engineering</p>
+      </footer>
+    </div>
+
+    <div class="project-page" id="project-view">
+      <button class="back-btn" onclick="goBack()">← Back to projects</button>
+      <div class="project-page-tag" id="detail-tag"></div>
+      <h1 class="project-page-title" id="detail-title"></h1>
+      <div class="project-page-tags" id="detail-tags"></div>
+      <div class="project-page-divider"></div>
+      <div class="project-images" id="detail-images"></div>
+      <h2 class="project-section-title">Overview</h2>
+      <p class="project-body" id="detail-overview"></p>
+    </div>
+
+    <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Project image enlarged" />
+    </div>
+
+  </div>
+
+  <script>
+    // ─── DATA ────────────────────────────────────────────────────────────────────
+    const ME = {
+      name: "Chandana Pagadala",
+      bio: `Computer Engineering @ Purdue University, focused on AI and ML research. Passionate about making tech that lifts people up. When I'm not coding you can find me powerlifting or laser engraving random stuff.`,
+    };
+
+    const PROJECTS = [
+      {
+        id: "RESEC",
+        title: "Sports Engineering Research",
+        desc: "Raw-Ewry Sports Engineering Center",
+        tags: ["Python", "Data Viz"],
+        featured: true,
+        overview: `Upcoming project with the Raw-Ewry Sports Engineering Center at Purdue, where I'll be applying data analysis and visualization techniques to athelete injury data. Stay tuned for updates!`,
+      },
+      {
+        id: "trust-modeling",
+        title: "Low-Dimensional Dynamic Modeling of Human Cognition",
+        desc: "Modeling human trust and cognitive workload using differential equations and ML classifiers under Dr. Jain.",
+        tags: ["MATLAB", "ML", "Dynamic Systems"],
+        featured: true,
+        overview: `This project models how humans develop and maintain trust in automated systems using dynamical systems theory. Working under Dr. Jain at Purdue, I built data pipelines and trained decision tree classifiers to predict operator compliance based on trust and workload signals.`,
+        images: ["./images/Screenshot 2026-04-19 145839.png"],
+      },
+      {
+        id: "spacecraft-cybersecurity",
+        title: "Spacecraft Cybersecurity (AFRL)",
+        desc: "Vulnerability assessment and V&V for autonomous spacecraft systems at Kirtland Air Force Base.",
+        tags: ["Cybersecurity", "Python", "V&V"],
+        featured: false,
+        overview: `At the Air Force Research Laboratory through USRA, I conducted verification and validation of autonomous spacecraft software. The work involved identifying vulnerabilities in mission-critical systems and validating software behavior against formal requirements.`,
+        images: ["./images/afrlposter.pdf.png"],
+      }
+    ];
+
+    // ─── INITIALIZATION ─────────────────────────────────────────────────────────
+
+    // Populate Hero Section
+    const nameParts = ME.name.split(" ");
+    document.getElementById("hero-name").innerHTML = `${nameParts[0]}<br /><em>${nameParts.slice(1).join(" ")}</em>`;
+    document.getElementById("hero-bio").innerText = ME.bio;
+
+    // Populate Projects Grid
+    const projectsGrid = document.getElementById("projects-grid");
+    
+    PROJECTS.forEach((p, i) => {
+      const card = document.createElement("div");
+      card.className = `project-card ${p.featured ? "featured" : ""}`;
+      card.onclick = () => openProject(p);
+      
+      const num = String(i + 1).padStart(2, "0");
+      const tagsHtml = p.tags.map(t => `<span class="tag">${t}</span>`).join("");
+
+      card.innerHTML = `
+        <div class="project-num">${num}</div>
+        <h3 class="project-title">${p.title}</h3>
+        <p class="project-desc">${p.desc}</p>
+        <div class="project-tags">${tagsHtml}</div>
+        <span class="project-arrow">↗</span>
+      `;
+      
+      projectsGrid.appendChild(card);
+    });
+
+    // ─── EVENT LISTENERS ────────────────────────────────────────────────────────
+
+    // Navbar scroll effect
+    window.addEventListener("scroll", () => {
+      const nav = document.getElementById("navbar");
+      if (window.scrollY > 60) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    });
+
+    // Dark Mode Toggle
+    let darkMode = false;
+    const themeBtn = document.getElementById("theme-toggle");
+    
+    themeBtn.addEventListener("click", () => {
+      darkMode = !darkMode;
+      document.documentElement.classList.toggle("dark", darkMode);
+      themeBtn.innerText = darkMode ? "☀︎" : "☽";
+    });
+
+    // ─── NAVIGATION & VIEW LOGIC ────────────────────────────────────────────────
+
+    function goHome(e) {
+      if(e) e.preventDefault();
+      document.getElementById("project-view").style.display = "none";
+      document.getElementById("main-view").style.display = "block";
+      
+      // If clicked from a hash link, scroll to it smoothly
+      if(e && e.target.hash === "#projects") {
+        setTimeout(() => {
+          document.getElementById("projects").scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function goBack() {
+      document.getElementById("project-view").style.display = "none";
+      document.getElementById("main-view").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("projects").scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+
+    function openProject(project) {
+      // Hide main view, show project view
+      document.getElementById("main-view").style.display = "none";
+      document.getElementById("project-view").style.display = "block";
+      window.scrollTo(0, 0);
+
+      // Populate Data
+      document.getElementById("detail-tag").innerText = project.tags.join(" · ");
+      document.getElementById("detail-title").innerText = project.title;
+      document.getElementById("detail-tags").innerHTML = project.tags.map(t => `<span class="tag">${t}</span>`).join("");
+      document.getElementById("detail-overview").innerText = project.overview;
+
+      // Populate Images
+      const imagesContainer = document.getElementById("detail-images");
+      imagesContainer.innerHTML = ""; // clear previous
+
+      if (project.images && project.images.length > 0) {
+        imagesContainer.style.display = "flex"; // Ensure it's visible if images exist
+        project.images.forEach(src => {
+          if (src) {
+            imagesContainer.innerHTML += `
+              <div class="image-slot" onclick="openLightbox('${src}')">
+                <img src="${src}" alt="Project image" />
+                <span class="image-zoom-hint">click to enlarge</span>
+              </div>
+            `;
+          }
+        });
+      } else {
+        imagesContainer.style.display = "none"; // Hide completely if no images
+      }
+    }
+
+    // ─── LIGHTBOX LOGIC ─────────────────────────────────────────────────────────
+
+    function openLightbox(src) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox").classList.add("active");
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").classList.remove("active");
+      document.getElementById("lightbox-img").src = "";
+    }
+  </script>
+</body>
+</html>
