@@ -1,2 +1,2 @@
-# websites
-my websity
+# website
+my website
