@@ -13,8 +13,8 @@
       --bg: #f8f7f5;
       --surface: #ffffff;
       --border: #e2e6f0;
-      --accent: #e8a0b4;
-      --accent-dim: #c97a92;
+      --accent: #2563eb;
+      --accent-dim: #1d4ed8;
       --text: #1a2340;
       --muted: #7a85a0;
       --serif: 'DM Serif Display', Georgia, serif;
@@ -26,8 +26,8 @@
       --bg: #0e0f14;
       --surface: #161820;
       --border: #252733;
-      --accent: #e8a0b4;
-      --accent-dim: #c97a92;
+      --accent: #3b82f6;
+      --accent-dim: #2563eb;
       --text: #e8e8f0;
       --muted: #7a85a0;
     }
@@ -66,18 +66,18 @@
 
     /* HERO */
     .hero {
-      min-height: 80vh; /* REDUCED from 100vh to pull projects up */
+      min-height: 80vh; 
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      padding: 8rem 2rem 2rem; /* REDUCED bottom padding */
+      padding: 8rem 2rem 2rem; 
       position: relative; overflow: hidden;
     }
     .hero::before {
       content: '';
       position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
       width: 700px; height: 400px;
-      background: radial-gradient(ellipse, rgba(232,160,180,0.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero-tag {
@@ -111,7 +111,7 @@
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
     /* SECTIONS */
-    section { padding: 4rem 3rem; } /* REDUCED top/bottom padding to tighten gaps */
+    section { padding: 4rem 3rem; } 
     .section-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3.5rem; }
     .section-num { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; transition: color 0.3s; }
     .section-title { font-family: var(--serif); font-size: 2.8rem; letter-spacing: -0.02em; color: var(--text); transition: color 0.3s; }
@@ -155,7 +155,7 @@
 
     /* PROJECT DETAIL PAGE */
     .project-page {
-      display: none; /* Hidden initially */
+      display: none; 
       min-height: 100vh; padding: 8rem 3rem 5rem;
       max-width: 860px; margin: 0 auto;
     }
@@ -177,7 +177,7 @@
     .project-page-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
     .project-page-divider { height: 1px; background: var(--border); margin-bottom: 2.5rem; }
 
-    /* IMAGE — centered single photo with lightbox */
+    /* IMAGE */
     .project-images { display: flex; justify-content: center; margin-bottom: 2.5rem; }
     .image-slot {
       width: 100%; max-width: 640px;
@@ -199,7 +199,7 @@
 
     /* LIGHTBOX */
     .lightbox-overlay {
-      display: none; /* Hidden initially */
+      display: none; 
       position: fixed; inset: 0; z-index: 999;
       background: rgba(0,0,0,0.88);
       align-items: center; justify-content: center;
@@ -234,7 +234,7 @@
       </a>
       <div class="nav-right">
         <ul class="nav-links">
-          <li><a href="#projects" onclick="goHome(event)">Projects</a></li>
+          <li><a href="#research" onclick="goHome(event)">Research</a></li>
         </ul>
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           ☽
@@ -249,17 +249,17 @@
           </h1>
         <p class="hero-bio" id="hero-bio"></p>
         <div class="hero-cta">
-          <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })">View Projects</button>
+          <button class="btn btn-primary" onclick="document.getElementById('research').scrollIntoView({ behavior: 'smooth' })">View Research</button>
           <a href="mailto:cpagadal@purdue.edu" class="btn btn-ghost">Email: cpagadal@purdue.edu</a>
           <a href="https://www.linkedin.com/in/chandanapagadala" class="btn btn-ghost" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://github.com/Chagpag" class="btn btn-ghost" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </section>
 
-      <section id="projects">
+      <section id="research">
         <div class="section-header">
           <span class="section-num">01</span>
-          <h2 class="section-title">Projects</h2>
+          <h2 class="section-title">Research</h2>
           <div class="section-line"></div>
         </div>
         <div class="projects-grid" id="projects-grid">
@@ -273,7 +273,7 @@
     </div>
 
     <div class="project-page" id="project-view">
-      <button class="back-btn" onclick="goBack()">← Back to projects</button>
+      <button class="back-btn" onclick="goBack()">← Back to research</button>
       <div class="project-page-tag" id="detail-tag"></div>
       <h1 class="project-page-title" id="detail-title"></h1>
       <div class="project-page-tags" id="detail-tags"></div>
@@ -319,7 +319,7 @@
         title: "Spacecraft Cybersecurity (AFRL)",
         desc: "Vulnerability assessment and V&V for autonomous spacecraft systems at Kirtland Air Force Base.",
         tags: ["Cybersecurity", "Python", "V&V"],
-        featured: false,
+        featured: true,
         overview: `At the Air Force Research Laboratory through USRA, I conducted verification and validation of autonomous spacecraft software. The work involved identifying vulnerabilities in mission-critical systems and validating software behavior against formal requirements.`,
         images: ["./images/afrlposter.pdf.png"],
       }
@@ -383,10 +383,9 @@
       document.getElementById("project-view").style.display = "none";
       document.getElementById("main-view").style.display = "block";
       
-      // If clicked from a hash link, scroll to it smoothly
-      if(e && e.target.hash === "#projects") {
+      if(e && e.target.hash === "#research") {
         setTimeout(() => {
-          document.getElementById("projects").scrollIntoView({ behavior: 'smooth' });
+          document.getElementById("research").scrollIntoView({ behavior: 'smooth' });
         }, 50);
       } else {
         window.scrollTo(0, 0);
@@ -397,7 +396,7 @@
       document.getElementById("project-view").style.display = "none";
       document.getElementById("main-view").style.display = "block";
       setTimeout(() => {
-        document.getElementById("projects").scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("research").scrollIntoView({ behavior: 'smooth' });
       }, 50);
     }
 
@@ -418,7 +417,7 @@
       imagesContainer.innerHTML = ""; // clear previous
 
       if (project.images && project.images.length > 0) {
-        imagesContainer.style.display = "flex"; // Ensure it's visible if images exist
+        imagesContainer.style.display = "flex";
         project.images.forEach(src => {
           if (src) {
             imagesContainer.innerHTML += `
@@ -430,7 +429,7 @@
           }
         });
       } else {
-        imagesContainer.style.display = "none"; // Hide completely if no images
+        imagesContainer.style.display = "none";
       }
     }
 
